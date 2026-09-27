@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#7c8b70">
+<title>Encanto Personalizados</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f1e9;color:#333}
+header{background:#7c8b70;color:white;padding:22px 18px;border-radius:0 0 24px 24px}
+header h1{margin:0;font-size:23px}
+header p{margin:6px 0 0;opacity:.9}
+main{padding:16px;padding-bottom:90px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{background:white;padding:15px;border-radius:16px;box-shadow:0 2px 8px #0001}
+.card b{font-size:23px;display:block;margin-top:5px}
+section{display:none}
+section.active{display:block}
+h2{font-size:20px;margin:8px 0 14px}
+button{border:0;border-radius:12px;padding:12px 15px;font-weight:bold;cursor:pointer}
+.primary{background:#7c8b70;color:white}
+.secondary{background:#e6dfd2;color:#555}
+.danger{background:#c96b6b;color:white}
+input,select,textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin:5px 0 10px;background:white}
+label{font-size:13px;font-weight:bold}
+.form{background:white;padding:16px;border-radius:16px;margin-top:15px}
+.actions{display:flex;gap:7px;flex-wrap:wrap}
+.order{background:white;padding:14px;border-radius:15px;margin:10px 0;box-shadow:0 2px 7px #0001}
+.order strong{font-size:17px}
+.order small{display:block;margin:4px 0;color:#666}
+.status{display:inline-block;padding:5px 9px;border-radius:20px;background:#e6dfd2;font-size:12px}
+nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:8px 4px;z-index:10}
+nav button{background:none;color:#666;padding:7px;font-size:11px}
+nav button.active{color:#7c8b70;font-weight:bold}
+.empty{text-align:center;color:#888;padding:30px}
+.money{font-weight:bold;color:#65765b}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🌿 Encanto Personalizados</h1>
+<p>Controle de pedidos</p>
+</header>
+
+<main>
+
+<section id="home" class="active">
+<h2>Resumo</h2>
+<div class="cards">
+<div class="card">📦 Pedidos<b id="total">0</b></div>
+<div class="card">🚚 A entregar<b id="entregar">0</b></div>
+<div class="card">✅ Entregues<b id="entregues">0</b></div>
+<div class="card">💰 A receber<b id="receber">R$ 0,00</b></div>
+</div>
+
+<div class="form">
+<h3>Acesso rápido</h3>
+<div class="actions">
+<button class="primary" onclick="abrirNovo()">+ Novo pedido</button>
+<button class="secondary" onclick="ir('pedidos')">Ver pedidos</button>
+</div>
+</div>
+</section>
+
+<section id="novo">
+<h2>Novo pedido</h2>
+<div class="form">
+<label>Cliente</label>
+<input id="cliente" placeholder="Nome do cliente">
+
+<label>WhatsApp</label>
+<input id="whatsapp" placeholder="Ex.: 37999999999">
+
+<label>Produto / serviço</label>
+<input id="produto" placeholder="Ex.: Caixa personalizada">
+
+<label>Quantidade</label>
+<input id="qtd" type="number" value="1">
+
+<label>Valor total</label>
+<input id="valor" type="number" step="0.01" placeholder="0,00">
+
+<label>Valor recebido</label>
+<input id="recebido" type="number" step="0.01" placeholder="0,00">
+
+<label>Data do pedido</label>
+<input id="dataPedido" type="date">
+
+<label>Data de entrega</label>
+<input id="dataEntrega" type="date">
+
+<label>Forma de pagamento</label>
+<select id="pagamento">
+<option>Pix</option>
+<option>Dinheiro</option>
+<option>Cartão</option>
+<option>Transferência</option>
+<option>Outro</option>
+</select>
+
+<label>Status</label>
+<select id="status">
+<option>Recebido</option>
+<option>Em produção</option>
+<option>A entregar</option>
+<option>Entregue</option>
+<option>Cancelado</option>
+</select>
+
+<label>Observações</label>
+<textarea id="obs" rows="3" placeholder="Detalhes do pedido"></textarea>
+
+<div class="actions">
+<button class="primary" onclick="salvar()">Salvar pedido</button>
+<button class="secondary" onclick="ir('home')">Cancelar</button>
+</div>
+</div>
+</section>
+
+<section id="pedidos">
+<h2>Pedidos</h2>
+<input id="busca" placeholder="🔎 Buscar cliente ou produto" oninput="listar()">
+<div id="lista"></div>
+</section>
+
+<section id="clientes">
+<h2>Clientes</h2>
+<div class="form">
+<label>Nome</label>
+<input id="novoCliente" placeholder="Nome do cliente">
+<label>WhatsApp</label>
+<input id="novoWhats" placeholder="WhatsApp">
+<button class="primary" onclick="addCliente()">Cadastrar cliente</button>
+</div>
+<div id="listaClientes"></div>
+</section>
+
+<section id="relatorio">
+<h2>Relatório</h2>
+<div class="cards">
+<div class="card">💵 Vendido<b id="vendido">R$ 0,00</b></div>
+<div class="card">💳 Recebido<b id="recebidoTotal">R$ 0,00</b></div>
+<div class="card">📌 Em aberto<b id="aberto">R$ 0,00</b></div>
+</div>
+<div class="form">
+<button class="secondary" onclick="exportar()">💾 Fazer backup</button>
+<button class="secondary" onclick="document.getElementById('importar').click()">📂 Restaurar backup</button>
+<input id="importar" type="file" accept=".json" style="display:none" onchange="importar(this)">
+</div>
+</section>
+
+</main>
+
+<nav>
+<button id="n-home" class="active" onclick="ir('home')">🏠<br>Início</button>
+<button id="n-pedidos" onclick="ir('pedidos')">📦<br>Pedidos</button>
+<button id="n-novo" onclick="abrirNovo()">➕<br>Novo</button>
+<button id="n-clientes" onclick="ir('clientes')">👥<br>Clientes</button>
+<button id="n-relatorio" onclick="ir('relatorio')">📊<br>Relatório</button>
+</nav>
+
+<script>
+let pedidos=JSON.parse(localStorage.getItem('encanto_pedidos')||'[]');
+let clientes=JSON.parse(localStorage.getItem('encanto_clientes')||'[]');
+let editando=null;
+
+const dinheiro=v=>Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+
+function salvarDados(){
+localStorage.setItem('encanto_pedidos',JSON.stringify(pedidos));
+localStorage.setItem('encanto_clientes',JSON.stringify(clientes));
+}
+
+function ir(id){
+document.querySelectorAll('section').forEach(x=>x.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
+let b=document.getElementById('n-'+id);
+if(b)b.classList.add('active');
+if(id==='home')dashboard();
+if(id==='pedidos')listar();
+if(id==='clientes')listarClientes();
+if(id==='relatorio')relatorio();
+window.scrollTo(0,0);
+}
+
+function abrirNovo(){
+editando=null;
+document.querySelectorAll('#novo input,#novo textarea').forEach(x=>x.value='');
+document.getElementById('qtd').value=1;
+document.getElementById('status').value='Recebido';
+document.getElementById('pagamento').value='Pix';
+document.getElementById('dataPedido').value=new Date().toISOString().slice(0,10);
+ir('novo');
+}
+
+function salvar(){
+let cliente=document.getElementById('cliente').value.trim();
+if(!cliente){alert('Digite o nome do cliente.');return}
+
+let p={
+id:editando||Date.now(),
+cliente,
+whatsapp:document.getElementById('whatsapp').value,
+produto:document.getElementById('produto').value,
+qtd:Number(document.getElementById('qtd').value||1),
+valor:Number(document.getElementById('valor').value||0),
+recebido:Number(document.getElementById('recebido').value||0),
+dataPedido:document.getElementById('dataPedido').value,
+dataEntrega:document.getElementById('dataEntrega').value,
+pagamento:document.getElementById('pagamento').value,
+status:document.getElementById('status').value,
+obs:document.getElementById('obs').value
+};
+
+if(editando) pedidos=pedidos.map(x=>x.id===editando?p:x);
+else pedidos.push(p);
+
+salvarDados();
+alert('Pedido salvo com sucesso! ❤️');
+ir('pedidos');
+}
+
+function listar(){
+let busca=(document.getElementById('busca')?.value||'').toLowerCase();
+let arr=pedidos.filter(p=>
+p.cliente.toLowerCase().includes(busca)||
+(p.produto||'').toLowerCase().includes(busca)
+);
+let el=document.getElementById('lista');
+if(!arr.length){el.innerHTML='<div class="empty">Nenhum pedido encontrado.</div>';return}
+
+el.innerHTML=arr.map(p=>{
+let falta=Math.max(0,p.valor-p.recebido);
+return `
+<div class="order">
+<strong>${esc(p.cliente)}</strong>
+<small>📦 ${esc(p.produto||'Não informado')} — ${p.qtd}</small>
+<small>📅 Entrega: ${p.dataEntrega||'Não definida'}</small>
+<small>💰 Total: <span class="money">${dinheiro(p.valor)}</span></small>
+<small>💳 A receber: <span class="money">${dinheiro(falta)}</span></small>
+<span class="status">${p.status}</span>
+<div class="actions" style="margin-top:10px">
+<button class="secondary" onclick="editar(${p.id})">✏️ Editar</button>
+<button class="secondary" onclick="entregar(${p.id})">✅ Entregue</button>
+<button class="secondary" onclick="receber(${p.id})">💰 Recebi</button>
+${p.whatsapp?`<button class="secondary" onclick="whats('${p.whatsapp}','${esc(p.cliente)}')">💬 WhatsApp</button>`:''}
+<button class="danger" onclick="excluir(${p.id})">Excluir</button>
+</div>
+</div>`;
+}).join('');
+}
+
+function editar(id){
+let p=pedidos.find(x=>x.id===id);if(!p)return;
+editando=id;
+for(let k of ['cliente','whatsapp','produto','qtd','valor','recebido','dataPedido','dataEntrega','pagamento','status','obs'])
+document.getElementById(k).value=p[k]??'';
+ir('novo');
+}
+
+function entregar(id){
+let p=pedidos.find(x=>x.id===id);
+if(p){p.status='Entregue';salvarDados();listar();dashboard()}
+}
+
+function receber(id){
+let p=pedidos.find(x=>x.id===id);
+if(p){p.recebido=p.valor;p.status=p.status==='Recebido'?'Em produção':p.status;salvarDados();listar();dashboard()}
+}
+
+function excluir(id){
+if(confirm('Excluir este pedido?')){
+pedidos=pedidos.filter(x=>x.id!==id);
+salvarDados();listar();dashboard();
+}
+}
+
+function whats(numero,nome){
+let n=numero.replace(/\D/g,'');
+if(n.length===11)n='55'+n;
+window.open('https://wa.me/'+n+'?text='+encodeURIComponent('Olá '+nome+'! 😊'),'_blank');
+}
+
+function addCliente(){
+let nome=document.getElementById('novoCliente').value.trim();
+let whats=document.getElementById('novoWhats').value.trim();
+if(!nome)return alert('Digite o nome.');
+clientes.push({id:Date.now(),nome,whats});
+salvarDados();
+document.getElementById('novoCliente').value='';
+document.getElementById('novoWhats').value='';
+listarClientes();
+}
+
+function listarClientes(){
+let el=document.getElementById('listaClientes');
+if(!clientes.length){el.innerHTML='<div class="empty">Nenhum cliente cadastrado.</div>';return}
+el.innerHTML=clientes.map(c=>`
+<div class="order">
+<strong>${esc(c.nome)}</strong>
+<small>📱 ${esc(c.whats||'Não informado')}</small>
+</div>`).join('');
+}
+
+function dashboard(){
+document.getElementById('total').textContent=pedidos.length;
+document.getElementById('entregar').textContent=pedidos.filter(p=>p.status==='A entregar').length;
+document.getElementById('entregues').textContent=pedidos.filter(p=>p.status==='Entregue').length;
+let r=pedidos.reduce((s,p)=>s+Math.max(0,p.valor-p.recebido),0);
+document.getElementById('receber').textContent=dinheiro(r);
+}
+
+function relatorio(){
+let vendido=pedidos.reduce((s,p)=>s+p.valor,0);
+let rec=pedidos.reduce((s,p)=>s+p.recebido,0);
+document.getElementById('vendido').textContent=dinheiro(vendido);
+document.getElementById('recebidoTotal').textContent=dinheiro(rec);
+document.getElementById('aberto').textContent=dinheiro(vendido-rec);
+}
+
+function exportar(){
+let dados={pedidos,clientes,data:new Date().toISOString()};
+let a=document.createElement('a');
+a.href=URL.createObjectURL(new Blob([JSON.stringify(dados,null,2)],{type:'application/json'}));
+a.download='backup-encanto.json';
+a.click();
+}
+
+function importar(input){
+let f=input.files[0];if(!f)return;
+let r=new FileReader();
+r.onload=e=>{
+try{
+let d=JSON.parse(e.target.result);
+pedidos=d.pedidos||[];
+clientes=d.clientes||[];
+salvarDados();dashboard();alert('Backup restaurado!');
+}catch{alert('Arquivo de backup inválido.')}
+};
+r.readAsText(f);
+}
+
+function esc(x){
+return String(x||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+
+dashboard();
+</script>
+
+</body>
+</html>
