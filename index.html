@@ -92,6 +92,10 @@ margin:8px 0 14px;
 color:#735292;
 }
 
+h3{
+color:#735292;
+}
+
 button{
 border:0;
 border-radius:12px;
@@ -216,6 +220,37 @@ padding:7px 10px;
 font-size:12px;
 }
 
+.mes-relatorio{
+background:white;
+padding:15px;
+border-radius:16px;
+margin:10px 0;
+box-shadow:0 2px 8px #0001;
+border-left:4px solid #9C75BD;
+}
+
+.mes-relatorio h3{
+margin:0 0 12px;
+}
+
+.mes-relatorio p{
+margin:7px 0;
+}
+
+.mes-relatorio .valor{
+font-weight:bold;
+color:#735292;
+}
+
+.total-ano{
+background:#F0DDE5;
+padding:14px;
+border-radius:14px;
+margin-top:12px;
+font-weight:bold;
+color:#735292;
+}
+
 nav{
 position:fixed;
 bottom:0;
@@ -240,10 +275,6 @@ nav button.active{
 color:#D96F91;
 font-weight:bold;
 }
-
-h3{
-color:#735292;
-}
 </style>
 </head>
 
@@ -251,6 +282,7 @@ color:#735292;
 
 <header>
 <img src="Untitled%20design.png" alt="Encanto Personalizados">
+
 <div>
 <h1>Encanto Personalizados</h1>
 <p>Controle de pedidos</p>
@@ -459,6 +491,20 @@ Cadastrar cliente
 
 </div>
 
+
+<!-- VENDAS POR MÊS -->
+
+<div class="form">
+
+<h3>📊 Vendas por mês</h3>
+
+<div id="vendasPorMes"></div>
+
+</div>
+
+
+<!-- BACKUP -->
+
 <div class="form">
 
 <button
@@ -492,42 +538,53 @@ onchange="importar(this)">
 
 
 <!-- MENU -->
+
 <nav>
 
 <button
 id="n-home"
 class="active"
 onclick="ir('home')">
+
 🏠<br>
 Início
+
 </button>
 
 <button
 id="n-pedidos"
 onclick="ir('pedidos')">
+
 📦<br>
 Pedidos
+
 </button>
 
 <button
 id="n-novo"
 onclick="abrirNovo()">
+
 ➕<br>
 Novo
+
 </button>
 
 <button
 id="n-clientes"
 onclick="ir('clientes')">
+
 👥<br>
 Clientes
+
 </button>
 
 <button
 id="n-relatorio"
 onclick="ir('relatorio')">
+
 📊<br>
 Relatório
+
 </button>
 
 </nav>
@@ -535,26 +592,25 @@ Relatório
 
 <script>
 
-let pedidos=
+let pedidos =
 JSON.parse(
-localStorage.getItem('encanto_pedidos')||'[]'
+localStorage.getItem('encanto_pedidos') || '[]'
 );
 
-let clientes=
+let clientes =
 JSON.parse(
-localStorage.getItem('encanto_clientes')||'[]'
+localStorage.getItem('encanto_clientes') || '[]'
 );
 
-let editando=null;
+let editando = null;
 
-/* NOVO: filtro atual */
-let filtroAtual='todos';
+let filtroAtual = 'todos';
 
 
 /* DINHEIRO */
 
-const dinheiro=v=>
-Number(v||0).toLocaleString(
+const dinheiro = v =>
+Number(v || 0).toLocaleString(
 'pt-BR',
 {
 style:'currency',
@@ -586,7 +642,7 @@ function ir(id){
 
 document
 .querySelectorAll('section')
-.forEach(x=>
+.forEach(x =>
 x.classList.remove('active')
 );
 
@@ -596,27 +652,27 @@ document
 
 document
 .querySelectorAll('nav button')
-.forEach(x=>
+.forEach(x =>
 x.classList.remove('active')
 );
 
-let b=
-document.getElementById('n-'+id);
+let b =
+document.getElementById('n-' + id);
 
 if(b)
 b.classList.add('active');
 
 
-if(id==='home')
+if(id === 'home')
 dashboard();
 
-if(id==='pedidos')
+if(id === 'pedidos')
 listar();
 
-if(id==='clientes')
+if(id === 'clientes')
 listarClientes();
 
-if(id==='relatorio')
+if(id === 'relatorio')
 relatorio();
 
 window.scrollTo(0,0);
@@ -624,11 +680,11 @@ window.scrollTo(0,0);
 }
 
 
-/* FILTRO PELOS CARDS */
+/* FILTRO DOS CARDS */
 
 function filtrarStatus(status){
 
-filtroAtual=status;
+filtroAtual = status;
 
 ir('pedidos');
 
@@ -641,21 +697,21 @@ listar();
 
 function abrirNovo(){
 
-editando=null;
+editando = null;
 
 document
 .querySelectorAll('#novo input,#novo textarea')
-.forEach(x=>x.value='');
+.forEach(x => x.value='');
 
-document.getElementById('qtd').value=1;
+document.getElementById('qtd').value = 1;
 
-document.getElementById('status').value=
+document.getElementById('status').value =
 'Recebido';
 
-document.getElementById('pagamento').value=
+document.getElementById('pagamento').value =
 'Pix';
 
-document.getElementById('dataPedido').value=
+document.getElementById('dataPedido').value =
 new Date().toISOString().slice(0,10);
 
 ir('novo');
@@ -667,7 +723,7 @@ ir('novo');
 
 function salvar(){
 
-let cliente=
+let cliente =
 document
 .getElementById('cliente')
 .value
@@ -681,12 +737,11 @@ return;
 
 }
 
+let p = {
 
-let p={
+id: editando || Date.now(),
 
-id:editando||Date.now(),
-
-cliente,
+cliente: cliente,
 
 whatsapp:
 document.getElementById('whatsapp').value,
@@ -696,17 +751,17 @@ document.getElementById('produto').value,
 
 qtd:
 Number(
-document.getElementById('qtd').value||1
+document.getElementById('qtd').value || 1
 ),
 
 valor:
 Number(
-document.getElementById('valor').value||0
+document.getElementById('valor').value || 0
 ),
 
 recebido:
 Number(
-document.getElementById('recebido').value||0
+document.getElementById('recebido').value || 0
 ),
 
 dataPedido:
@@ -729,9 +784,9 @@ document.getElementById('obs').value
 
 if(editando){
 
-pedidos=
+pedidos =
 pedidos.map(
-x=>x.id===editando?p:x
+x => x.id === editando ? p : x
 );
 
 }else{
@@ -742,11 +797,9 @@ pedidos.push(p);
 
 salvarDados();
 
-alert(
-'Pedido salvo com sucesso! ❤️'
-);
+alert('Pedido salvo com sucesso! ❤️');
 
-filtroAtual='todos';
+filtroAtual = 'todos';
 
 ir('pedidos');
 
@@ -757,53 +810,50 @@ ir('pedidos');
 
 function listar(){
 
-let busca=
+let busca =
 (
-document.getElementById('busca')?.value||''
+document.getElementById('busca')?.value || ''
 ).toLowerCase();
 
 
-/* FILTRO */
+let arr = pedidos.filter(p => {
 
-let arr=pedidos.filter(p=>{
+let correspondeStatus = true;
 
-let correspondeStatus=true;
+if(filtroAtual === 'A entregar'){
 
-if(filtroAtual==='A entregar'){
-
-correspondeStatus=
-p.status==='A entregar';
+correspondeStatus =
+p.status === 'A entregar';
 
 }
 
-else if(filtroAtual==='Entregue'){
+else if(filtroAtual === 'Entregue'){
 
-correspondeStatus=
-p.status==='Entregue';
-
-}
-
-else if(filtroAtual==='receber'){
-
-correspondeStatus=
-Number(p.valor||0)>
-Number(p.recebido||0);
+correspondeStatus =
+p.status === 'Entregue';
 
 }
 
+else if(filtroAtual === 'receber'){
 
-let correspondeBusca=
+correspondeStatus =
+Number(p.valor || 0) >
+Number(p.recebido || 0);
 
-(p.cliente||'')
+}
+
+
+let correspondeBusca =
+
+String(p.cliente || '')
 .toLowerCase()
 .includes(busca)
 
 ||
 
-(p.produto||'')
+String(p.produto || '')
 .toLowerCase()
 .includes(busca);
-
 
 return correspondeStatus &&
 correspondeBusca;
@@ -811,28 +861,26 @@ correspondeBusca;
 });
 
 
-/* NOME DO FILTRO */
-
-let filtroEl=
+let filtroEl =
 document.getElementById('filtroAtual');
 
 if(filtroEl){
 
-let nome='Todos os pedidos';
+let nome = 'Todos os pedidos';
 
-if(filtroAtual==='A entregar')
-nome='🚚 Pedidos a entregar';
+if(filtroAtual === 'A entregar')
+nome = '🚚 Pedidos a entregar';
 
-if(filtroAtual==='Entregue')
-nome='✅ Pedidos entregues';
+if(filtroAtual === 'Entregue')
+nome = '✅ Pedidos entregues';
 
-if(filtroAtual==='receber')
-nome='💰 Pedidos a receber';
+if(filtroAtual === 'receber')
+nome = '💰 Pedidos a receber';
 
 
-if(filtroAtual!=='todos'){
+if(filtroAtual !== 'todos'){
 
-filtroEl.innerHTML=`
+filtroEl.innerHTML = `
 
 <div class="filtro">
 
@@ -852,20 +900,20 @@ Ver todos
 
 }else{
 
-filtroEl.innerHTML='';
+filtroEl.innerHTML = '';
 
 }
 
 }
 
 
-let el=
+let el =
 document.getElementById('lista');
 
 
 if(!arr.length){
 
-el.innerHTML=
+el.innerHTML =
 '<div class="empty">Nenhum pedido encontrado.</div>';
 
 return;
@@ -873,14 +921,15 @@ return;
 }
 
 
-el.innerHTML=
-arr.map(p=>{
+el.innerHTML =
 
-let falta=
+arr.map(p => {
+
+let falta =
 Math.max(
 0,
-Number(p.valor||0)-
-Number(p.recebido||0)
+Number(p.valor || 0) -
+Number(p.recebido || 0)
 );
 
 
@@ -893,12 +942,17 @@ ${esc(p.cliente)}
 </strong>
 
 <small>
-📦 ${esc(p.produto||'Não informado')} — ${p.qtd}
+📦 ${esc(p.produto || 'Não informado')} — ${p.qtd}
+</small>
+
+<small>
+📅 Pedido:
+${p.dataPedido || 'Não definida'}
 </small>
 
 <small>
 📅 Entrega:
-${p.dataEntrega||'Não definida'}
+${p.dataEntrega || 'Não definida'}
 </small>
 
 <small>
@@ -983,12 +1037,12 @@ Excluir
 
 function editar(id){
 
-let p=
-pedidos.find(x=>x.id===id);
+let p =
+pedidos.find(x => x.id === id);
 
 if(!p)return;
 
-editando=id;
+editando = id;
 
 for(
 let k of
@@ -1007,8 +1061,8 @@ let k of
 ]
 )
 
-document.getElementById(k).value=
-p[k]??'';
+document.getElementById(k).value =
+p[k] ?? '';
 
 ir('novo');
 
@@ -1019,12 +1073,12 @@ ir('novo');
 
 function entregar(id){
 
-let p=
-pedidos.find(x=>x.id===id);
+let p =
+pedidos.find(x => x.id === id);
 
 if(p){
 
-p.status='Entregue';
+p.status = 'Entregue';
 
 salvarDados();
 
@@ -1041,19 +1095,15 @@ dashboard();
 
 function receber(id){
 
-let p=
-pedidos.find(x=>x.id===id);
+let p =
+pedidos.find(x => x.id === id);
 
 if(p){
 
-p.recebido=p.valor;
+p.recebido = p.valor;
 
-p.status=
-p.status==='Recebido'
-?
-'Em produção'
-:
-p.status;
+if(p.status === 'Recebido')
+p.status = 'Em produção';
 
 salvarDados();
 
@@ -1074,9 +1124,9 @@ if(
 confirm('Excluir este pedido?')
 ){
 
-pedidos=
+pedidos =
 pedidos.filter(
-x=>x.id!==id
+x => x.id !== id
 );
 
 salvarDados();
@@ -1094,18 +1144,18 @@ dashboard();
 
 function whats(numero,nome){
 
-let n=
+let n =
 numero.replace(/\D/g,'');
 
-if(n.length===11)
-n='55'+n;
+if(n.length === 11)
+n = '55' + n;
 
 window.open(
-'https://wa.me/'+
-n+
-'?text='+
+'https://wa.me/' +
+n +
+'?text=' +
 encodeURIComponent(
-'Olá '+nome+'! 😊'
+'Olá ' + nome + '! 😊'
 ),
 '_blank'
 );
@@ -1117,31 +1167,29 @@ encodeURIComponent(
 
 function addCliente(){
 
-let nome=
+let nome =
 document
 .getElementById('novoCliente')
 .value
 .trim();
 
-let whats=
+let whats =
 document
 .getElementById('novoWhats')
 .value
 .trim();
 
 if(!nome)
-return alert(
-'Digite o nome.'
-);
+return alert('Digite o nome.');
 
 
 clientes.push({
 
-id:Date.now(),
+id: Date.now(),
 
-nome,
+nome: nome,
 
-whats
+whats: whats
 
 });
 
@@ -1150,11 +1198,11 @@ salvarDados();
 
 document.getElementById(
 'novoCliente'
-).value='';
+).value = '';
 
 document.getElementById(
 'novoWhats'
-).value='';
+).value = '';
 
 listarClientes();
 
@@ -1165,15 +1213,14 @@ listarClientes();
 
 function listarClientes(){
 
-let el=
+let el =
 document.getElementById(
 'listaClientes'
 );
 
-
 if(!clientes.length){
 
-el.innerHTML=
+el.innerHTML =
 '<div class="empty">Nenhum cliente cadastrado.</div>';
 
 return;
@@ -1181,8 +1228,9 @@ return;
 }
 
 
-el.innerHTML=
-clientes.map(c=>`
+el.innerHTML =
+
+clientes.map(c => `
 
 <div class="order">
 
@@ -1191,7 +1239,7 @@ ${esc(c.nome)}
 </strong>
 
 <small>
-📱 ${esc(c.whats||'Não informado')}
+📱 ${esc(c.whats || 'Não informado')}
 </small>
 
 </div>
@@ -1207,34 +1255,36 @@ function dashboard(){
 
 document.getElementById(
 'total'
-).textContent=
+).textContent =
 pedidos.length;
 
 
 document.getElementById(
 'entregar'
-).textContent=
+).textContent =
+
 pedidos.filter(
-p=>p.status==='A entregar'
+p => p.status === 'A entregar'
 ).length;
 
 
 document.getElementById(
 'entregues'
-).textContent=
+).textContent =
+
 pedidos.filter(
-p=>p.status==='Entregue'
+p => p.status === 'Entregue'
 ).length;
 
 
-let r=
+let r =
 pedidos.reduce(
-(s,p)=>
-s+
+(s,p) =>
+s +
 Math.max(
 0,
-Number(p.valor||0)-
-Number(p.recebido||0)
+Number(p.valor || 0) -
+Number(p.recebido || 0)
 ),
 0
 );
@@ -1242,7 +1292,7 @@ Number(p.recebido||0)
 
 document.getElementById(
 'receber'
-).textContent=
+).textContent =
 dinheiro(r);
 
 }
@@ -1252,36 +1302,224 @@ dinheiro(r);
 
 function relatorio(){
 
-let vendido=
+let vendido =
 pedidos.reduce(
-(s,p)=>s+Number(p.valor||0),
+(s,p) =>
+s + Number(p.valor || 0),
 0
 );
 
-
-let rec=
+let rec =
 pedidos.reduce(
-(s,p)=>s+Number(p.recebido||0),
+(s,p) =>
+s + Number(p.recebido || 0),
 0
 );
 
 
 document.getElementById(
 'vendido'
-).textContent=
+).textContent =
 dinheiro(vendido);
 
 
 document.getElementById(
 'recebidoTotal'
-).textContent=
+).textContent =
 dinheiro(rec);
 
 
 document.getElementById(
 'aberto'
-).textContent=
-dinheiro(vendido-rec);
+).textContent =
+dinheiro(vendido - rec);
+
+
+/* RELATÓRIO MENSAL */
+
+vendasPorMes();
+
+}
+
+
+/* VENDAS POR MÊS */
+
+function vendasPorMes(){
+
+const meses = [
+
+'Janeiro',
+'Fevereiro',
+'Março',
+'Abril',
+'Maio',
+'Junho',
+'Julho',
+'Agosto',
+'Setembro',
+'Outubro',
+'Novembro',
+'Dezembro'
+
+];
+
+
+let html = '';
+
+let totalPedidosAno = 0;
+let totalVendidoAno = 0;
+let totalRecebidoAno = 0;
+
+
+meses.forEach((mes,indice) => {
+
+
+let vendas = pedidos.filter(p => {
+
+if(!p.dataPedido)
+return false;
+
+let data =
+new Date(
+p.dataPedido + 'T00:00:00'
+);
+
+return data.getMonth() === indice;
+
+});
+
+
+if(!vendas.length)
+return;
+
+
+let vendido =
+vendas.reduce(
+(total,p) =>
+total + Number(p.valor || 0),
+0
+);
+
+
+let recebido =
+vendas.reduce(
+(total,p) =>
+total + Number(p.recebido || 0),
+0
+);
+
+
+let aberto =
+vendido - recebido;
+
+
+totalPedidosAno += vendas.length;
+
+totalVendidoAno += vendido;
+
+totalRecebidoAno += recebido;
+
+
+html += `
+
+<div class="mes-relatorio">
+
+<h3>
+📅 ${mes}
+</h3>
+
+<p>
+📦 <strong>Pedidos:</strong>
+${vendas.length}
+</p>
+
+<p>
+💰 <strong>Vendido:</strong>
+
+<span class="valor">
+${dinheiro(vendido)}
+</span>
+
+</p>
+
+<p>
+💳 <strong>Recebido:</strong>
+
+<span class="valor">
+${dinheiro(recebido)}
+</span>
+
+</p>
+
+<p>
+📌 <strong>Em aberto:</strong>
+
+<span class="valor">
+${dinheiro(aberto)}
+</span>
+
+</p>
+
+</div>
+
+`;
+
+});
+
+
+if(!html){
+
+html = `
+
+<div class="empty">
+
+Ainda não existem vendas
+com data de pedido cadastrada.
+
+</div>
+
+`;
+
+}else{
+
+html += `
+
+<div class="total-ano">
+
+📊 TOTAL DO PERÍODO
+
+<br><br>
+
+📦 Pedidos:
+${totalPedidosAno}
+
+<br><br>
+
+💰 Vendido:
+${dinheiro(totalVendidoAno)}
+
+<br><br>
+
+💳 Recebido:
+${dinheiro(totalRecebidoAno)}
+
+<br><br>
+
+📌 Em aberto:
+${dinheiro(
+totalVendidoAno - totalRecebidoAno
+)}
+
+</div>
+
+`;
+
+}
+
+
+document.getElementById(
+'vendasPorMes'
+).innerHTML = html;
 
 }
 
@@ -1290,23 +1528,26 @@ dinheiro(vendido-rec);
 
 function exportar(){
 
-let dados={
+let dados = {
 
 pedidos,
 
 clientes,
 
-data:new Date().toISOString()
+data:
+new Date().toISOString()
 
 };
 
 
-let a=
+let a =
 document.createElement('a');
 
-a.href=
+a.href =
 URL.createObjectURL(
+
 new Blob(
+
 [
 JSON.stringify(
 dados,
@@ -1314,13 +1555,15 @@ null,
 2
 )
 ],
+
 {
 type:'application/json'
 }
+
 )
 );
 
-a.download=
+a.download =
 'backup-encanto.json';
 
 a.click();
@@ -1332,29 +1575,29 @@ a.click();
 
 function importar(input){
 
-let f=
+let f =
 input.files[0];
 
 if(!f)return;
 
-let r=
+let r =
 new FileReader();
 
 
-r.onload=e=>{
+r.onload = e => {
 
 try{
 
-let d=
+let d =
 JSON.parse(
 e.target.result
 );
 
-pedidos=
-d.pedidos||[];
+pedidos =
+d.pedidos || [];
 
-clientes=
-d.clientes||[];
+clientes =
+d.clientes || [];
 
 salvarDados();
 
@@ -1386,10 +1629,10 @@ r.readAsText(f);
 
 function esc(x){
 
-return String(x||'')
+return String(x || '')
 .replace(
 /[&<>"']/g,
-m=>({
+m => ({
 
 '&':'&amp;',
 '<':'&lt;',
@@ -1398,6 +1641,7 @@ m=>({
 "'":'&#039;'
 
 }[m])
+
 );
 
 }
