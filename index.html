@@ -63,6 +63,12 @@ padding:15px;
 border-radius:16px;
 box-shadow:0 2px 8px #0001;
 border-left:4px solid #D96F91;
+cursor:pointer;
+transition:.15s;
+}
+
+.card:active{
+transform:scale(.97);
 }
 
 .card b{
@@ -191,6 +197,25 @@ color:#777;
 margin-top:12px;
 }
 
+.filtro{
+background:#F0DDE5;
+color:#735292;
+padding:10px 12px;
+border-radius:12px;
+margin:8px 0 12px;
+font-size:14px;
+font-weight:bold;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:8px;
+}
+
+.filtro button{
+padding:7px 10px;
+font-size:12px;
+}
+
 nav{
 position:fixed;
 bottom:0;
@@ -219,7 +244,6 @@ font-weight:bold;
 h3{
 color:#735292;
 }
-
 </style>
 </head>
 
@@ -235,28 +259,29 @@ color:#735292;
 
 <main>
 
+<!-- INÍCIO -->
 <section id="home" class="active">
 
 <h2>Resumo</h2>
 
 <div class="cards">
 
-<div class="card">
+<div class="card" onclick="filtrarStatus('todos')">
 📦 Pedidos
 <b id="total">0</b>
 </div>
 
-<div class="card">
+<div class="card" onclick="filtrarStatus('A entregar')">
 🚚 A entregar
 <b id="entregar">0</b>
 </div>
 
-<div class="card">
+<div class="card" onclick="filtrarStatus('Entregue')">
 ✅ Entregues
 <b id="entregues">0</b>
 </div>
 
-<div class="card">
+<div class="card" onclick="filtrarStatus('receber')">
 💰 A receber
 <b id="receber">R$ 0,00</b>
 </div>
@@ -273,7 +298,7 @@ color:#735292;
 + Novo pedido
 </button>
 
-<button class="secondary" onclick="ir('pedidos')">
+<button class="secondary" onclick="filtrarStatus('todos')">
 Ver pedidos
 </button>
 
@@ -284,6 +309,7 @@ Ver pedidos
 </section>
 
 
+<!-- NOVO PEDIDO -->
 <section id="novo">
 
 <h2>Novo pedido</h2>
@@ -358,9 +384,12 @@ Cancelar
 </section>
 
 
+<!-- PEDIDOS -->
 <section id="pedidos">
 
 <h2>Pedidos</h2>
+
+<div id="filtroAtual"></div>
 
 <input
 id="busca"
@@ -372,6 +401,7 @@ oninput="listar()">
 </section>
 
 
+<!-- CLIENTES -->
 <section id="clientes">
 
 <h2>Clientes</h2>
@@ -405,6 +435,7 @@ Cadastrar cliente
 </section>
 
 
+<!-- RELATÓRIO -->
 <section id="relatorio">
 
 <h2>Relatório</h2>
@@ -460,52 +491,43 @@ onchange="importar(this)">
 </main>
 
 
+<!-- MENU -->
 <nav>
 
 <button
 id="n-home"
 class="active"
 onclick="ir('home')">
-
 🏠<br>
 Início
-
 </button>
 
 <button
 id="n-pedidos"
 onclick="ir('pedidos')">
-
 📦<br>
 Pedidos
-
 </button>
 
 <button
 id="n-novo"
 onclick="abrirNovo()">
-
 ➕<br>
 Novo
-
 </button>
 
 <button
 id="n-clientes"
 onclick="ir('clientes')">
-
 👥<br>
 Clientes
-
 </button>
 
 <button
 id="n-relatorio"
 onclick="ir('relatorio')">
-
 📊<br>
 Relatório
-
 </button>
 
 </nav>
@@ -525,6 +547,11 @@ localStorage.getItem('encanto_clientes')||'[]'
 
 let editando=null;
 
+/* NOVO: filtro atual */
+let filtroAtual='todos';
+
+
+/* DINHEIRO */
 
 const dinheiro=v=>
 Number(v||0).toLocaleString(
@@ -535,6 +562,8 @@ currency:'BRL'
 }
 );
 
+
+/* SALVAR */
 
 function salvarDados(){
 
@@ -551,6 +580,8 @@ JSON.stringify(clientes)
 }
 
 
+/* NAVEGAÇÃO */
+
 function ir(id){
 
 document
@@ -562,7 +593,6 @@ x.classList.remove('active')
 document
 .getElementById(id)
 .classList.add('active');
-
 
 document
 .querySelectorAll('nav button')
@@ -594,6 +624,21 @@ window.scrollTo(0,0);
 }
 
 
+/* FILTRO PELOS CARDS */
+
+function filtrarStatus(status){
+
+filtroAtual=status;
+
+ir('pedidos');
+
+listar();
+
+}
+
+
+/* NOVO PEDIDO */
+
 function abrirNovo(){
 
 editando=null;
@@ -617,6 +662,8 @@ ir('novo');
 
 }
 
+
+/* SALVAR PEDIDO */
 
 function salvar(){
 
@@ -680,17 +727,18 @@ document.getElementById('obs').value
 };
 
 
-if(editando)
+if(editando){
 
 pedidos=
 pedidos.map(
 x=>x.id===editando?p:x
 );
 
-else
+}else{
 
 pedidos.push(p);
 
+}
 
 salvarDados();
 
@@ -698,10 +746,14 @@ alert(
 'Pedido salvo com sucesso! ❤️'
 );
 
+filtroAtual='todos';
+
 ir('pedidos');
 
 }
 
+
+/* LISTAR PEDIDOS */
 
 function listar(){
 
@@ -711,10 +763,38 @@ document.getElementById('busca')?.value||''
 ).toLowerCase();
 
 
-let arr=
-pedidos.filter(p=>
+/* FILTRO */
 
-p.cliente
+let arr=pedidos.filter(p=>{
+
+let correspondeStatus=true;
+
+if(filtroAtual==='A entregar'){
+
+correspondeStatus=
+p.status==='A entregar';
+
+}
+
+else if(filtroAtual==='Entregue'){
+
+correspondeStatus=
+p.status==='Entregue';
+
+}
+
+else if(filtroAtual==='receber'){
+
+correspondeStatus=
+Number(p.valor||0)>
+Number(p.recebido||0);
+
+}
+
+
+let correspondeBusca=
+
+(p.cliente||'')
 .toLowerCase()
 .includes(busca)
 
@@ -722,9 +802,61 @@ p.cliente
 
 (p.produto||'')
 .toLowerCase()
-.includes(busca)
+.includes(busca);
 
-);
+
+return correspondeStatus &&
+correspondeBusca;
+
+});
+
+
+/* NOME DO FILTRO */
+
+let filtroEl=
+document.getElementById('filtroAtual');
+
+if(filtroEl){
+
+let nome='Todos os pedidos';
+
+if(filtroAtual==='A entregar')
+nome='🚚 Pedidos a entregar';
+
+if(filtroAtual==='Entregue')
+nome='✅ Pedidos entregues';
+
+if(filtroAtual==='receber')
+nome='💰 Pedidos a receber';
+
+
+if(filtroAtual!=='todos'){
+
+filtroEl.innerHTML=`
+
+<div class="filtro">
+
+<span>${nome}</span>
+
+<button
+class="secondary"
+onclick="filtrarStatus('todos')">
+
+Ver todos
+
+</button>
+
+</div>
+
+`;
+
+}else{
+
+filtroEl.innerHTML='';
+
+}
+
+}
 
 
 let el=
@@ -747,7 +879,8 @@ arr.map(p=>{
 let falta=
 Math.max(
 0,
-p.valor-p.recebido
+Number(p.valor||0)-
+Number(p.recebido||0)
 );
 
 
@@ -783,7 +916,7 @@ ${dinheiro(falta)}
 </small>
 
 <span class="status">
-${p.status}
+${esc(p.status)}
 </span>
 
 <div
@@ -846,6 +979,8 @@ Excluir
 }
 
 
+/* EDITAR */
+
 function editar(id){
 
 let p=
@@ -880,6 +1015,8 @@ ir('novo');
 }
 
 
+/* ENTREGAR */
+
 function entregar(id){
 
 let p=
@@ -899,6 +1036,8 @@ dashboard();
 
 }
 
+
+/* RECEBER */
 
 function receber(id){
 
@@ -927,6 +1066,8 @@ dashboard();
 }
 
 
+/* EXCLUIR */
+
 function excluir(id){
 
 if(
@@ -949,6 +1090,8 @@ dashboard();
 }
 
 
+/* WHATSAPP */
+
 function whats(numero,nome){
 
 let n=
@@ -969,6 +1112,8 @@ encodeURIComponent(
 
 }
 
+
+/* CLIENTES */
 
 function addCliente(){
 
@@ -1016,6 +1161,8 @@ listarClientes();
 }
 
 
+/* LISTAR CLIENTES */
+
 function listarClientes(){
 
 let el=
@@ -1054,6 +1201,8 @@ ${esc(c.nome)}
 }
 
 
+/* DASHBOARD */
+
 function dashboard(){
 
 document.getElementById(
@@ -1084,7 +1233,8 @@ pedidos.reduce(
 s+
 Math.max(
 0,
-p.valor-p.recebido
+Number(p.valor||0)-
+Number(p.recebido||0)
 ),
 0
 );
@@ -1098,18 +1248,20 @@ dinheiro(r);
 }
 
 
+/* RELATÓRIO */
+
 function relatorio(){
 
 let vendido=
 pedidos.reduce(
-(s,p)=>s+p.valor,
+(s,p)=>s+Number(p.valor||0),
 0
 );
 
 
 let rec=
 pedidos.reduce(
-(s,p)=>s+p.recebido,
+(s,p)=>s+Number(p.recebido||0),
 0
 );
 
@@ -1134,18 +1286,23 @@ dinheiro(vendido-rec);
 }
 
 
+/* BACKUP */
+
 function exportar(){
 
 let dados={
+
 pedidos,
+
 clientes,
+
 data:new Date().toISOString()
+
 };
 
 
 let a=
 document.createElement('a');
-
 
 a.href=
 URL.createObjectURL(
@@ -1163,7 +1320,6 @@ type:'application/json'
 )
 );
 
-
 a.download=
 'backup-encanto.json';
 
@@ -1172,13 +1328,14 @@ a.click();
 }
 
 
+/* RESTAURAR BACKUP */
+
 function importar(input){
 
 let f=
 input.files[0];
 
 if(!f)return;
-
 
 let r=
 new FileReader();
@@ -1225,6 +1382,8 @@ r.readAsText(f);
 }
 
 
+/* SEGURANÇA DO TEXTO */
+
 function esc(x){
 
 return String(x||'')
@@ -1243,6 +1402,8 @@ m=>({
 
 }
 
+
+/* INICIAR */
 
 dashboard();
 
