@@ -1,0 +1,1882 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="apple-touch-icon" href="./Untitled%20design.png?v=3">
+<meta name="theme-color" content="#D96F91">
+<title>Encanto Personalizados</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#FDF2EC;
+  color:#4B3A45;
+  padding-bottom:80px;
+}
+
+header{
+  background:linear-gradient(135deg,#D96F91,#9C75BD);
+  color:white;
+  padding:18px 16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  box-shadow:0 3px 12px #0002;
+}
+
+header img{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  object-fit:cover;
+  background:white;
+}
+
+header h1{
+  margin:0;
+  font-size:19px;
+}
+
+header small{
+  opacity:.9;
+}
+
+main{
+  padding:15px;
+  max-width:800px;
+  margin:auto;
+}
+
+section{
+  display:none;
+}
+
+section.active{
+  display:block;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.card{
+  background:white;
+  border-radius:18px;
+  padding:16px;
+  box-shadow:0 3px 12px #0000000d;
+  cursor:pointer;
+}
+
+.card b{
+  display:block;
+  font-size:25px;
+  margin-top:5px;
+}
+
+.card span{
+  font-size:13px;
+  color:#806D77;
+}
+
+.card.pink{
+  border-left:5px solid #D96F91;
+}
+
+.card.purple{
+  border-left:5px solid #9C75BD;
+}
+
+.card.green{
+  border-left:5px solid #6EAA83;
+}
+
+.card.orange{
+  border-left:5px solid #D99A5B;
+}
+
+.box{
+  background:white;
+  padding:16px;
+  border-radius:18px;
+  box-shadow:0 3px 12px #0000000d;
+  margin-bottom:15px;
+}
+
+.box h2{
+  margin:0 0 14px;
+  font-size:18px;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin:10px 0 5px;
+}
+
+input,select,textarea{
+  width:100%;
+  padding:12px;
+  border:1px solid #E4C8D3;
+  border-radius:11px;
+  background:#fff;
+  color:#4B3A45;
+  font-size:15px;
+  outline:none;
+}
+
+textarea{
+  min-height:80px;
+  resize:vertical;
+}
+
+input:focus,select:focus,textarea:focus{
+  border-color:#D96F91;
+  box-shadow:0 0 0 3px #D96F9120;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+button{
+  border:0;
+  border-radius:11px;
+  padding:12px 15px;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.btn{
+  background:#D96F91;
+  color:white;
+}
+
+.btn2{
+  background:#F0DDE5;
+  color:#735292;
+}
+
+.btn3{
+  background:#735292;
+  color:white;
+}
+
+.btnDanger{
+  background:#C96B6B;
+  color:white;
+}
+
+.btnGreen{
+  background:#6EAA83;
+  color:white;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.actions button{
+  flex:1;
+  min-width:110px;
+}
+
+.search{
+  margin-bottom:12px;
+}
+
+.item{
+  background:white;
+  border-radius:15px;
+  padding:14px;
+  margin-bottom:10px;
+  box-shadow:0 2px 10px #0000000b;
+  border-left:4px solid #D96F91;
+}
+
+.itemTop{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.item h3{
+  margin:0 0 4px;
+  font-size:16px;
+}
+
+.item p{
+  margin:4px 0;
+  font-size:13px;
+  color:#6E5C66;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+  background:#F0DDE5;
+  color:#735292;
+}
+
+.badge.green{
+  background:#E4F2E8;
+  color:#427454;
+}
+
+.badge.orange{
+  background:#FFF0DD;
+  color:#A96C27;
+}
+
+.badge.red{
+  background:#F9E2E2;
+  color:#A84D4D;
+}
+
+.money{
+  font-weight:bold;
+  color:#735292;
+}
+
+.profit{
+  font-weight:bold;
+  color:#4D8B60;
+}
+
+.filterbar{
+  background:#F0DDE5;
+  border-radius:12px;
+  padding:10px;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  font-size:13px;
+}
+
+.filterbar button{
+  padding:7px 10px;
+  background:white;
+  color:#735292;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+}
+
+th,td{
+  padding:9px 5px;
+  border-bottom:1px solid #F0DDE5;
+  text-align:left;
+}
+
+th{
+  color:#735292;
+}
+
+.empty{
+  text-align:center;
+  padding:30px 15px;
+  color:#8B7781;
+}
+
+nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:white;
+  border-top:1px solid #EAD7DE;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  z-index:30;
+  box-shadow:0 -3px 15px #0000000c;
+}
+
+nav button{
+  background:white;
+  color:#806D77;
+  border-radius:0;
+  padding:9px 3px;
+  font-size:11px;
+}
+
+nav button span{
+  display:block;
+  font-size:20px;
+  margin-bottom:2px;
+}
+
+nav button.active{
+  color:#D96F91;
+  font-weight:bold;
+}
+
+.stat{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid #F0DDE5;
+}
+
+.stat:last-child{
+  border-bottom:0;
+}
+
+.big{
+  font-size:22px;
+  font-weight:bold;
+  color:#735292;
+}
+
+.productProfit{
+  background:#EAF5ED;
+  color:#427454;
+  border-radius:10px;
+  padding:9px;
+  margin-top:10px;
+  font-size:13px;
+}
+
+.info{
+  background:#F8F0F5;
+  border-radius:12px;
+  padding:11px;
+  margin-top:10px;
+  font-size:13px;
+}
+
+@media(max-width:500px){
+  .grid3{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .grid3 > div:last-child{
+    grid-column:1/-1;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="./Untitled%20design.png?v=3" alt="Encanto">
+  <div>
+    <h1>Encanto Personalizados</h1>
+    <small>Controle de pedidos e vendas</small>
+  </div>
+</header>
+
+<main>
+
+<section id="home" class="active">
+
+<div class="cards">
+
+<div class="card pink" onclick="filtrar('todos')">
+<span>📦 Pedidos</span>
+<b id="cPedidos">0</b>
+</div>
+
+<div class="card orange" onclick="filtrar('A entregar')">
+<span>🚚 A entregar</span>
+<b id="cEntrega">0</b>
+</div>
+
+<div class="card green" onclick="filtrar('Entregue')">
+<span>✅ Entregues</span>
+<b id="cEntregues">0</b>
+</div>
+
+<div class="card purple" onclick="filtrar('receber')">
+<span>💰 A receber</span>
+<b id="cReceber">R$ 0,00</b>
+</div>
+
+</div>
+
+<div class="box">
+
+<h2>Resumo financeiro</h2>
+
+<div class="stat">
+<span>Total vendido</span>
+<strong id="homeVendido">R$ 0,00</strong>
+</div>
+
+<div class="stat">
+<span>Total recebido</span>
+<strong id="homeRecebido">R$ 0,00</strong>
+</div>
+
+<div class="stat">
+<span>Total de custos</span>
+<strong id="homeCusto">R$ 0,00</strong>
+</div>
+
+<div class="stat">
+<span>Lucro estimado</span>
+<strong class="profit" id="homeLucro">R$ 0,00</strong>
+</div>
+
+</div>
+
+</section>
+
+<section id="novo">
+
+<div class="box">
+
+<h2 id="tituloForm">Novo pedido</h2>
+
+<label>Cliente</label>
+<input id="cliente" placeholder="Nome do cliente">
+
+<label>WhatsApp</label>
+<input id="whatsapp" placeholder="(00) 00000-0000">
+
+<label>Produto</label>
+<select id="produtoSelect" onchange="produtoEscolhido()">
+<option value="">Selecione um produto</option>
+</select>
+
+<label>Produto / descrição</label>
+<input id="produto" placeholder="Descrição do pedido">
+
+<div class="grid3">
+
+<div>
+<label>Quantidade</label>
+<input id="qtd" type="number" min="1" value="1" oninput="calcular()">
+</div>
+
+<div>
+<label>Preço de venda/un.</label>
+<input id="precoVenda" type="number" step="0.01" oninput="calcular()">
+</div>
+
+<div>
+<label>Custo/un.</label>
+<input id="precoCusto" type="number" step="0.01" oninput="calcular()">
+</div>
+
+</div>
+
+<div class="info">
+Total do pedido:
+<strong id="totalPreview">R$ 0,00</strong>
+<br>
+Lucro estimado:
+<strong class="profit" id="lucroPreview">R$ 0,00</strong>
+</div>
+
+<div class="grid2">
+
+<div>
+<label>Valor recebido</label>
+<input id="recebido" type="number" step="0.01" value="0" oninput="calcular()">
+</div>
+
+<div>
+<label>Data do pedido</label>
+<input id="dataPedido" type="date">
+</div>
+
+</div>
+
+<div class="grid2">
+
+<div>
+<label>Data de entrega</label>
+<input id="dataEntrega" type="date">
+</div>
+
+<div>
+<label>Pagamento</label>
+<select id="pagamento">
+<option>Pix</option>
+<option>Dinheiro</option>
+<option>Cartão</option>
+<option>Transferência</option>
+<option>Não informado</option>
+</select>
+</div>
+
+</div>
+
+<label>Status</label>
+<select id="status">
+<option>A entregar</option>
+<option>Entregue</option>
+</select>
+
+<label>Observações</label>
+<textarea id="obs" placeholder="Detalhes do pedido"></textarea>
+
+<div class="actions">
+<button class="btn" onclick="salvar()">💾 Salvar pedido</button>
+<button class="btn2" onclick="novo()">Limpar</button>
+</div>
+
+</div>
+
+</section>
+
+<section id="pedidos">
+
+<div class="box">
+
+<h2>📦 Pedidos</h2>
+
+<input class="search" id="busca" oninput="listar()" placeholder="🔎 Buscar cliente ou produto">
+
+<div id="filtroBar"></div>
+
+<div id="listaPedidos"></div>
+
+</div>
+
+</section>
+
+<section id="produtos">
+
+<div class="box">
+
+<h2>🎁 Produtos</h2>
+
+<label>Nome do produto</label>
+<input id="pnome" placeholder="Ex.: Caixa Milk">
+
+<label>Categoria</label>
+<input id="pcat" placeholder="Ex.: Caixinhas">
+
+<div class="grid2">
+
+<div>
+<label>Custo por unidade</label>
+<input id="pcusto" type="number" step="0.01" oninput="calcProduto()">
+</div>
+
+<div>
+<label>Preço de venda por unidade</label>
+<input id="pvenda" type="number" step="0.01" oninput="calcProduto()">
+</div>
+
+</div>
+
+<div class="productProfit" id="infoProduto">
+Lucro por unidade: R$ 0,00<br>
+Margem: 0%
+</div>
+
+<div class="actions">
+<button class="btn" id="btnProduto" onclick="salvarProduto()">💾 Cadastrar produto</button>
+<button class="btn2" onclick="limparProduto()">Limpar</button>
+</div>
+
+</div>
+
+<div class="box">
+
+<h2>Produtos cadastrados</h2>
+
+<div id="listaProdutos"></div>
+
+</div>
+
+</section>
+
+<section id="relatorio">
+
+<div class="box">
+
+<h2>📊 Relatório financeiro</h2>
+
+<div id="relatorioResumo"></div>
+
+</div>
+
+<div class="box">
+
+<h2>📅 Vendas por mês</h2>
+
+<div id="relatorioMes"></div>
+
+</div>
+
+<div class="box">
+
+<h2>💾 Backup</h2>
+
+<p style="font-size:13px;color:#806D77">
+Salve uma cópia dos seus pedidos e produtos para não perder seus dados.
+</p>
+
+<div class="actions">
+<button class="btn3" onclick="backup()">⬇️ Fazer backup</button>
+<button class="btn2" onclick="document.getElementById('arquivo').click()">⬆️ Restaurar</button>
+</div>
+
+<input id="arquivo" type="file" accept=".json" style="display:none" onchange="restaurar(event)">
+
+</div>
+
+</section>
+
+</main>
+
+<nav>
+
+<button class="active" onclick="ir('home',this)">
+<span>🏠</span>
+Início
+</button>
+
+<button onclick="ir('novo',this)">
+<span>➕</span>
+Pedido
+</button>
+
+<button onclick="ir('pedidos',this)">
+<span>📦</span>
+Pedidos
+</button>
+
+<button onclick="ir('produtos',this)">
+<span>🎁</span>
+Produtos
+</button>
+
+<button onclick="ir('relatorio',this)">
+<span>📊</span>
+Relatório
+</button>
+
+</nav>
+
+<script>
+
+let pedidos=JSON.parse(localStorage.getItem('encanto_pedidos')||'[]');
+
+let produtos=JSON.parse(localStorage.getItem('encanto_produtos')||'[]');
+
+let editando=null;
+
+let editandoProduto=null;
+
+let filtroAtual='todos';
+
+function dinheiro(v){
+return Number(v||0).toLocaleString('pt-BR',{
+style:'currency',
+currency:'BRL'
+});
+}
+
+function salvarDados(){
+localStorage.setItem('encanto_pedidos',JSON.stringify(pedidos));
+localStorage.setItem('encanto_produtos',JSON.stringify(produtos));
+}
+
+function ir(id,botao){
+
+document.querySelectorAll('main section')
+.forEach(s=>s.classList.remove('active'));
+
+document.getElementById(id).classList.add('active');
+
+document.querySelectorAll('nav button')
+.forEach(b=>b.classList.remove('active'));
+
+if(botao)botao.classList.add('active');
+
+if(id==='home')dashboard();
+
+if(id==='pedidos')listar();
+
+if(id==='produtos'){
+preencher();
+listarProdutos();
+}
+
+if(id==='relatorio')relatorio();
+
+}
+
+function filtrar(status){
+
+filtroAtual=status;
+
+ir('pedidos',document.querySelectorAll('nav button')[2]);
+
+listar();
+
+}
+
+function novo(){
+
+editando=null;
+
+document.getElementById('tituloForm').textContent='Novo pedido';
+
+document.getElementById('cliente').value='';
+document.getElementById('whatsapp').value='';
+document.getElementById('produtoSelect').value='';
+document.getElementById('produto').value='';
+document.getElementById('qtd').value=1;
+document.getElementById('precoVenda').value='';
+document.getElementById('precoCusto').value='';
+document.getElementById('recebido').value=0;
+
+document.getElementById('dataPedido').value=
+new Date().toISOString().slice(0,10);
+
+document.getElementById('dataEntrega').value='';
+document.getElementById('pagamento').value='Pix';
+document.getElementById('status').value='A entregar';
+document.getElementById('obs').value='';
+
+calcular();
+
+}
+
+function preencher(){
+
+const select=document.getElementById('produtoSelect');
+
+select.innerHTML='<option value="">Selecione um produto</option>';
+
+produtos.forEach(p=>{
+
+const option=document.createElement('option');
+
+option.value=p.id;
+
+option.textContent=p.nome+' — '+dinheiro(p.preco);
+
+select.appendChild(option);
+
+});
+
+}
+
+function produtoEscolhido(){
+
+const id=document.getElementById('produtoSelect').value;
+
+const p=produtos.find(x=>String(x.id)===String(id));
+
+if(!p)return;
+
+document.getElementById('produto').value=p.nome;
+document.getElementById('precoVenda').value=p.preco;
+document.getElementById('precoCusto').value=p.custo;
+
+calcular();
+
+}
+
+function calcular(){
+
+const qtd=Number(document.getElementById('qtd').value||0);
+const venda=Number(document.getElementById('precoVenda').value||0);
+const custo=Number(document.getElementById('precoCusto').value||0);
+
+const total=qtd*venda;
+const lucro=qtd*(venda-custo);
+
+document.getElementById('totalPreview').textContent=dinheiro(total);
+document.getElementById('lucroPreview').textContent=dinheiro(lucro);
+
+}
+
+function salvar(){
+
+const cliente=document.getElementById('cliente').value.trim();
+const produto=document.getElementById('produto').value.trim();
+
+const qtd=Number(document.getElementById('qtd').value||0);
+const precoVenda=Number(document.getElementById('precoVenda').value||0);
+const precoCusto=Number(document.getElementById('precoCusto').value||0);
+const recebido=Number(document.getElementById('recebido').value||0);
+
+if(!cliente){
+alert('Informe o nome do cliente.');
+return;
+}
+
+if(!produto){
+alert('Informe o produto.');
+return;
+}
+
+if(qtd<=0){
+alert('Informe uma quantidade válida.');
+return;
+}
+
+const total=qtd*precoVenda;
+const custoTotal=qtd*precoCusto;
+const lucro=total-custoTotal;
+
+const obj={
+id:editando||Date.now(),
+cliente,
+whatsapp:document.getElementById('whatsapp').value.trim(),
+produto,
+qtd,
+precoVenda,
+precoCusto,
+valor:total,
+recebido,
+custoTotal,
+lucro,
+dataPedido:document.getElementById('dataPedido').value,
+dataEntrega:document.getElementById('dataEntrega').value,
+pagamento:document.getElementById('pagamento').value,
+status:document.getElementById('status').value,
+obs:document.getElementById('obs').value.trim()
+};
+
+if(editando){
+
+const i=pedidos.findIndex(x=>x.id===editando);
+
+if(i>=0)pedidos[i]=obj;
+
+}else{
+
+pedidos.unshift(obj);
+
+}
+
+salvarDados();
+
+alert(editando?'Pedido atualizado com sucesso!':'Pedido salvo com sucesso!');
+
+novo();
+
+ir('pedidos',document.querySelectorAll('nav button')[2]);
+
+}
+
+function listar(){
+
+const busca=document.getElementById('busca').value.toLowerCase().trim();
+
+let lista=[...pedidos];
+
+if(filtroAtual==='A entregar')
+lista=lista.filter(p=>p.status==='A entregar');
+
+if(filtroAtual==='Entregue')
+lista=lista.filter(p=>p.status==='Entregue');
+
+if(filtroAtual==='receber')
+lista=lista.filter(p=>Number(p.valor||0)-Number(p.recebido||0)>0);
+
+if(busca){
+
+lista=lista.filter(p=>
+String(p.cliente||'').toLowerCase().includes(busca)||
+String(p.produto||'').toLowerCase().includes(busca)
+);
+
+}
+
+const bar=document.getElementById('filtroBar');
+
+if(filtroAtual!=='todos'){
+
+let texto=filtroAtual;
+
+if(filtroAtual==='receber')texto='A receber';
+
+bar.innerHTML=`
+<div class="filterbar">
+<span>Filtro: <strong>${texto}</strong></span>
+<button onclick="filtrar('todos')">Ver todos</button>
+</div>
+`;
+
+}else{
+
+bar.innerHTML='';
+
+}
+
+const el=document.getElementById('listaPedidos');
+
+if(!lista.length){
+
+el.innerHTML='<div class="empty">Nenhum pedido encontrado.</div>';
+
+return;
+
+}
+
+el.innerHTML=lista.map(p=>{
+
+const restante=Number(p.valor||0)-Number(p.recebido||0);
+
+const lucro=Number(p.lucro??(
+Number(p.valor||0)-Number(p.custoTotal||0)
+));
+
+let badge='badge';
+
+if(p.status==='Entregue')badge+=' green';
+else if(p.status==='A entregar')badge+=' orange';
+
+return`
+
+<div class="item">
+
+<div class="itemTop">
+
+<div>
+
+<h3>${esc(p.cliente)}</h3>
+
+<p>🎁 ${esc(p.produto)}</p>
+
+</div>
+
+<span class="${badge}">
+${esc(p.status||'')}
+</span>
+
+</div>
+
+<p>
+Quantidade:
+<strong>${p.qtd||0}</strong>
+</p>
+
+<p>
+Total:
+<strong class="money">${dinheiro(p.valor)}</strong>
+</p>
+
+<p>
+Recebido:
+<strong>${dinheiro(p.recebido)}</strong>
+</p>
+
+<p>
+Falta:
+<strong class="${restante>0?'badge red':'badge green'}">
+${dinheiro(restante)}
+</strong>
+</p>
+
+<p>
+Lucro:
+<strong class="profit">${dinheiro(lucro)}</strong>
+</p>
+
+${p.dataEntrega?`<p>📅 Entrega: ${formatarData(p.dataEntrega)}</p>`:''}
+
+${p.whatsapp?`<p>📱 ${esc(p.whatsapp)}</p>`:''}
+
+${p.obs?`<p>📝 ${esc(p.obs)}</p>`:''}
+
+<div class="actions">
+
+<button class="btn2" onclick="editar(${p.id})">
+✏️ Editar
+</button>
+
+${p.status!=='Entregue'?`
+<button class="btnGreen" onclick="entregar(${p.id})">
+✅ Entregar
+</button>
+`:''}
+
+${restante>0?`
+<button class="btn3" onclick="receber(${p.id})">
+💰 Receber
+</button>
+`:''}
+
+${p.whatsapp?`
+<button class="btn2" onclick="whats(${p.id})">
+📱 WhatsApp
+</button>
+`:''}
+
+<button class="btnDanger" onclick="excluir(${p.id})">
+🗑️
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}).join('');
+
+}
+
+function esc(v){
+
+return String(v??'')
+.replaceAll('&','&amp;')
+.replaceAll('<','&lt;')
+.replaceAll('>','&gt;')
+.replaceAll('"','&quot;')
+.replaceAll("'","&#039;");
+
+}
+
+function formatarData(d){
+
+if(!d)return '';
+
+const[a,m,dia]=d.split('-');
+
+return`${dia}/${m}/${a}`;
+
+}
+
+function editar(id){
+
+const p=pedidos.find(x=>x.id===id);
+
+if(!p)return;
+
+editando=id;
+
+document.getElementById('tituloForm').textContent='Editar pedido';
+
+document.getElementById('cliente').value=p.cliente||'';
+document.getElementById('whatsapp').value=p.whatsapp||'';
+
+preencher();
+
+const produtoCadastrado=produtos.find(x=>x.nome===p.produto);
+
+document.getElementById('produtoSelect').value=
+produtoCadastrado?produtoCadastrado.id:'';
+
+document.getElementById('produto').value=p.produto||'';
+
+document.getElementById('qtd').value=p.qtd||1;
+
+document.getElementById('precoVenda').value=
+p.precoVenda??(Number(p.valor||0)/Number(p.qtd||1));
+
+document.getElementById('precoCusto').value=p.precoCusto||0;
+document.getElementById('recebido').value=p.recebido||0;
+document.getElementById('dataPedido').value=p.dataPedido||'';
+document.getElementById('dataEntrega').value=p.dataEntrega||'';
+document.getElementById('pagamento').value=p.pagamento||'Pix';
+document.getElementById('status').value=p.status||'A entregar';
+document.getElementById('obs').value=p.obs||'';
+
+calcular();
+
+ir('novo',document.querySelectorAll('nav button')[1]);
+
+}
+
+function entregar(id){
+
+const p=pedidos.find(x=>x.id===id);
+
+if(!p)return;
+
+p.status='Entregue';
+
+salvarDados();
+
+listar();
+dashboard();
+
+}
+
+function receber(id){
+
+const p=pedidos.find(x=>x.id===id);
+
+if(!p)return;
+
+p.recebido=Number(p.valor||0);
+
+salvarDados();
+
+listar();
+dashboard();
+
+}
+
+function excluir(id){
+
+if(!confirm('Excluir este pedido?'))return;
+
+pedidos=pedidos.filter(x=>x.id!==id);
+
+salvarDados();
+
+listar();
+dashboard();
+
+}
+
+function whats(id){
+
+const p=pedidos.find(x=>x.id===id);
+
+if(!p||!p.whatsapp)return;
+
+let numero=p.whatsapp.replace(/\D/g,'');
+
+if(numero.length===11)numero='55'+numero;
+
+const mensagem=
+`Olá ${p.cliente}! 😊%0A%0A`+
+`Sobre seu pedido de ${p.produto}.%0A`+
+`Valor: ${dinheiro(p.valor)}%0A`+
+`Status: ${p.status}.`;
+
+window.open(
+`https://wa.me/${numero}?text=${mensagem}`,
+'_blank'
+);
+
+}
+
+function dashboard(){
+
+const total=pedidos.length;
+
+const entrega=pedidos.filter(
+p=>p.status==='A entregar'
+).length;
+
+const entregues=pedidos.filter(
+p=>p.status==='Entregue'
+).length;
+
+const vendido=pedidos.reduce(
+(s,p)=>s+Number(p.valor||0),0
+);
+
+const recebido=pedidos.reduce(
+(s,p)=>s+Number(p.recebido||0),0
+);
+
+const custo=pedidos.reduce(
+(s,p)=>s+Number(
+p.custoTotal||
+p.qtd*p.precoCusto||
+0
+),0
+);
+
+const lucro=vendido-custo;
+
+document.getElementById('cPedidos').textContent=total;
+document.getElementById('cEntrega').textContent=entrega;
+document.getElementById('cEntregues').textContent=entregues;
+
+document.getElementById('cReceber').textContent=
+dinheiro(vendido-recebido);
+
+document.getElementById('homeVendido').textContent=dinheiro(vendido);
+document.getElementById('homeRecebido').textContent=dinheiro(recebido);
+document.getElementById('homeCusto').textContent=dinheiro(custo);
+document.getElementById('homeLucro').textContent=dinheiro(lucro);
+
+}
+function calcProduto(){
+
+const custo=
+Number(document.getElementById('pcusto').value||0);
+
+const venda=
+Number(document.getElementById('pvenda').value||0);
+
+const lucro=venda-custo;
+
+const margem=venda>0
+?(lucro/venda)*100
+:0;
+
+document.getElementById('infoProduto').innerHTML=
+`
+Lucro por unidade:
+<strong>${dinheiro(lucro)}</strong>
+<br>
+Margem:
+<strong>${margem.toFixed(1)}%</strong>
+`;
+
+}
+
+
+function limparProduto(){
+
+editandoProduto=null;
+
+document.getElementById('pnome').value='';
+document.getElementById('pcat').value='';
+document.getElementById('pcusto').value='';
+document.getElementById('pvenda').value='';
+
+document.getElementById('btnProduto').textContent=
+'💾 Cadastrar produto';
+
+calcProduto();
+
+}
+
+
+function salvarProduto(){
+
+const nome=
+document.getElementById('pnome').value.trim();
+
+const categoria=
+document.getElementById('pcat').value.trim();
+
+const custo=
+Number(document.getElementById('pcusto').value||0);
+
+const preco=
+Number(document.getElementById('pvenda').value||0);
+
+
+if(!nome){
+
+alert('Informe o nome do produto.');
+
+return;
+
+}
+
+
+if(preco<=0){
+
+alert('Informe um preço de venda válido.');
+
+return;
+
+}
+
+
+if(editandoProduto){
+
+const i=
+produtos.findIndex(
+x=>x.id===editandoProduto
+);
+
+if(i>=0){
+
+produtos[i]={
+...produtos[i],
+nome,
+categoria,
+custo,
+preco
+};
+
+}
+
+alert('Produto atualizado com sucesso!');
+
+
+}else{
+
+produtos.push({
+
+id:Date.now(),
+
+nome,
+
+categoria,
+
+custo,
+
+preco
+
+});
+
+alert('Produto cadastrado com sucesso!');
+
+}
+
+
+salvarDados();
+
+limparProduto();
+
+preencher();
+
+listarProdutos();
+
+}
+
+
+function editarProduto(id){
+
+const p=
+produtos.find(
+x=>x.id===id
+);
+
+if(!p)return;
+
+
+editandoProduto=id;
+
+
+document.getElementById('pnome').value=
+p.nome||'';
+
+document.getElementById('pcat').value=
+p.categoria||'';
+
+document.getElementById('pcusto').value=
+p.custo||0;
+
+document.getElementById('pvenda').value=
+p.preco||0;
+
+
+document.getElementById('btnProduto').textContent=
+'💾 Atualizar produto';
+
+
+calcProduto();
+
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
+
+}
+
+
+function delProduto(id){
+
+const p=
+produtos.find(
+x=>x.id===id
+);
+
+if(!p)return;
+
+
+if(!confirm(
+`Excluir o produto "${p.nome}"?`
+))return;
+
+
+produtos=
+produtos.filter(
+x=>x.id!==id
+);
+
+
+salvarDados();
+
+preencher();
+
+listarProdutos();
+
+
+}
+
+
+function listarProdutos(){
+
+const el=
+document.getElementById('listaProdutos');
+
+
+if(!produtos.length){
+
+el.innerHTML=
+'<div class="empty">Nenhum produto cadastrado.</div>';
+
+return;
+
+}
+
+
+el.innerHTML=
+produtos.map(p=>{
+
+const lucro=
+Number(p.preco||0)-
+Number(p.custo||0);
+
+const margem=
+p.preco>0
+?(lucro/p.preco)*100
+:0;
+
+
+return`
+
+<div class="item">
+
+<div class="itemTop">
+
+<div>
+
+<h3>${esc(p.nome)}</h3>
+
+${
+p.categoria
+?`<p>📂 ${esc(p.categoria)}</p>`
+:''
+}
+
+</div>
+
+</div>
+
+
+<p>
+Custo:
+<strong>
+${dinheiro(p.custo)}
+</strong>
+</p>
+
+
+<p>
+Venda:
+<strong class="money">
+${dinheiro(p.preco)}
+</strong>
+</p>
+
+
+<div class="productProfit">
+
+Lucro:
+<strong>
+${dinheiro(lucro)}
+</strong>
+
+&nbsp; | &nbsp;
+
+Margem:
+<strong>
+${margem.toFixed(1)}%
+</strong>
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="btn2"
+onclick="editarProduto(${p.id})">
+✏️ Editar
+</button>
+
+
+<button
+class="btnDanger"
+onclick="delProduto(${p.id})">
+🗑️ Excluir
+</button>
+
+</div>
+
+
+</div>
+
+`;
+
+}).join('');
+
+}
+
+
+function relatorio(){
+
+const vendido=
+pedidos.reduce(
+(s,p)=>s+Number(p.valor||0),
+0
+);
+
+const recebido=
+pedidos.reduce(
+(s,p)=>s+Number(p.recebido||0),
+0
+);
+
+const custo=
+pedidos.reduce(
+(s,p)=>s+Number(
+p.custoTotal||
+p.qtd*p.precoCusto||
+0
+),
+0
+);
+
+const lucro=
+vendido-custo;
+
+const aberto=
+vendido-recebido;
+
+
+document.getElementById(
+'relatorioResumo'
+).innerHTML=
+
+`
+
+<div class="stat">
+<span>Pedidos</span>
+<strong>${pedidos.length}</strong>
+</div>
+
+<div class="stat">
+<span>Total vendido</span>
+<strong>${dinheiro(vendido)}</strong>
+</div>
+
+<div class="stat">
+<span>Total recebido</span>
+<strong>${dinheiro(recebido)}</strong>
+</div>
+
+<div class="stat">
+<span>Em aberto</span>
+<strong>${dinheiro(aberto)}</strong>
+</div>
+
+<div class="stat">
+<span>Total de custos</span>
+<strong>${dinheiro(custo)}</strong>
+</div>
+
+<div class="stat">
+<span>Lucro estimado</span>
+<strong class="profit">
+${dinheiro(lucro)}
+</strong>
+</div>
+
+`;
+
+
+mesRelatorio();
+
+}
+
+
+function mesRelatorio(){
+
+const grupos={};
+
+
+pedidos.forEach(p=>{
+
+if(!p.dataPedido)return;
+
+
+const mes=
+p.dataPedido.slice(0,7);
+
+
+if(!grupos[mes]){
+
+grupos[mes]={
+pedidos:0,
+vendido:0,
+recebido:0,
+custo:0,
+lucro:0
+};
+
+}
+
+
+grupos[mes].pedidos++;
+
+grupos[mes].vendido+=
+Number(p.valor||0);
+
+grupos[mes].recebido+=
+Number(p.recebido||0);
+
+grupos[mes].custo+=
+Number(
+p.custoTotal||
+p.qtd*p.precoCusto||
+0
+);
+
+grupos[mes].lucro+=
+Number(p.valor||0)-
+Number(
+p.custoTotal||
+p.qtd*p.precoCusto||
+0
+);
+
+});
+
+
+const chaves=
+Object.keys(grupos)
+.sort()
+.reverse();
+
+
+const el=
+document.getElementById(
+'relatorioMes'
+);
+
+
+if(!chaves.length){
+
+el.innerHTML=
+'<div class="empty">Ainda não há vendas registradas.</div>';
+
+return;
+
+}
+
+
+el.innerHTML=
+
+`
+
+<div style="overflow-x:auto">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Mês</th>
+<th>Pedidos</th>
+<th>Vendas</th>
+<th>Recebido</th>
+<th>Custos</th>
+<th>Lucro</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+${
+chaves.map(m=>{
+
+const x=grupos[m];
+
+const[ano,mes]=m.split('-');
+
+
+return`
+
+<tr>
+
+<td>${mes}/${ano}</td>
+
+<td>${x.pedidos}</td>
+
+<td>${dinheiro(x.vendido)}</td>
+
+<td>${dinheiro(x.recebido)}</td>
+
+<td>${dinheiro(x.custo)}</td>
+
+<td class="profit">
+${dinheiro(x.lucro)}
+</td>
+
+</tr>
+
+`;
+
+}).join('')
+}
+
+</tbody>
+
+</table>
+
+</div>
+
+`;
+
+}
+
+
+function backup(){
+
+const dados={
+pedidos,
+produtos
+};
+
+
+const blob=
+new Blob(
+[
+JSON.stringify(
+dados,
+null,
+2
+)
+],
+{
+type:'application/json'
+}
+);
+
+
+const url=
+URL.createObjectURL(blob);
+
+
+const a=
+document.createElement('a');
+
+
+a.href=url;
+
+a.download=
+'backup-encanto-personalizados.json';
+
+
+a.click();
+
+
+URL.revokeObjectURL(url);
+
+}
+
+
+function restaurar(event){
+
+const file=
+event.target.files[0];
+
+if(!file)return;
+
+
+const reader=
+new FileReader();
+
+
+reader.onload=function(){
+
+try{
+
+const dados=
+JSON.parse(
+reader.result
+);
+
+
+if(Array.isArray(dados.pedidos))
+pedidos=dados.pedidos;
+
+
+if(Array.isArray(dados.produtos))
+produtos=dados.produtos;
+
+
+salvarDados();
+
+preencher();
+
+listarProdutos();
+
+dashboard();
+
+
+alert(
+'Backup restaurado com sucesso!'
+);
+
+
+}catch(e){
+
+alert(
+'Arquivo de backup inválido.'
+);
+
+}
+
+};
+
+
+reader.readAsText(file);
+
+}
+
+
+document.getElementById(
+'dataPedido'
+).value=
+new Date()
+.toISOString()
+.slice(0,10);
+
+
+dashboard();
+
+preencher();
+
+listarProdutos();
+
+</script>
+
+</body>
+</html>
